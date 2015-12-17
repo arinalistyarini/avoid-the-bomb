@@ -2,7 +2,7 @@ enchant();
  
 //initial
 window.onload = function() {
-    var game = new Game(361, 640);
+    var game = new Game(320, 480);
     game.preload('img/bg.png',
                 'img/bgover.png',
                  'img/player.png',
@@ -26,11 +26,11 @@ var SceneGame = Class.create(Scene, {
  
         Scene.apply(this);
         game = Game.instance;    
-        bg = new Sprite(361,640);
+        bg = new Sprite(320,480);
 
         // label
         label = new Label('SCORE: 0');
-        label.x = 25;
+        label.x = 12;
         label.y = 36;        
         label.color = 'white';
         label.font = '25px monospace';
@@ -44,7 +44,7 @@ var SceneGame = Class.create(Scene, {
         //player
         player = new Player();
         player.x = game.width/2 - player.width/2;
-        player.y = 468;
+        player.y = 320;
         this.player = player;
 
         //bomb group
@@ -74,7 +74,7 @@ var SceneGame = Class.create(Scene, {
 
     handleTouchControl: function (evt) {
         var laneWidth, lane;
-        laneWidth = 361/3;
+        laneWidth = 320/3;
         lane = Math.floor(evt.x/laneWidth);
         lane = Math.max(Math.min(2,lane),0);
         this.player.switchToLaneNumber(lane);
@@ -143,7 +143,7 @@ var Player = Class.create(Sprite, {
 
     // moving lane
     switchToLaneNumber: function(lane){     
-        var targetX = 180 - this.width/2 + (lane-1)*90;
+        var targetX = 160 - this.width/2 + (lane-1)*90;
         this.x = targetX;
     }
 });
@@ -191,29 +191,29 @@ var SceneGameOver = Class.create(Scene, {
     initialize: function(score) {
         var bgGameOver, gameOverLabel, scoreLabel, tapLabel;
         Scene.apply(this);
-        bgGameOver = new Sprite(361,640);
+        bgGameOver = new Sprite(320,480);
         bgGameOver.image = Game.instance.assets['img/bgover.png'];
 
         // Game Over label
         gameOverLabel = new Label("GAME OVER");
-        gameOverLabel.x = 28;
-        gameOverLabel.y = 180; 
+        gameOverLabel.x = 18;
+        gameOverLabel.y = 120; 
         gameOverLabel.color = 'white';
         gameOverLabel.font = '48px monospace';
         gameOverLabel.textAlign = 'center';
 
         // Score label
         scoreLabel = new Label('<br>SCORE: ' + score);
-        scoreLabel.x = 24;
-        scoreLabel.y = 198;       
+        scoreLabel.x = 14;
+        scoreLabel.y = 138;       
         scoreLabel.color = 'white';
         scoreLabel.font = '28px monospace';
         scoreLabel.textAlign = 'center';
 
         //tap label
         tapLabel = new Label('Tap to Restart');
-        tapLabel.x = 24;
-        tapLabel.y = 358;       
+        tapLabel.x = 14;
+        tapLabel.y = 228;       
         tapLabel.color = 'white';
         tapLabel.font = '22px monospace';
         tapLabel.textAlign = 'center';
