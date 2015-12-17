@@ -17,7 +17,8 @@ window.onload = function() {
                  'sound/Hit.mp3',
                  'sound/bgm.mp3');
     game.fps = 30;
-    game.scale = currentHeight/480;
+    /*game.scale = currentHeight/480;*/
+    game.scale = 2;
     game.onload = function() {
         var scene = new SceneGame();
         game.pushScene(scene);
