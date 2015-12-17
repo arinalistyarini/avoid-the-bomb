@@ -19,7 +19,7 @@ window.onload = function() {
     game.fps = 30;
     if(ios){
         /*game.scale = 2;*/
-        game.scale = window.screen.availHeight/480;
+        game.scale = currentHeight/480;
     }
     else if (android){
         game.scale = 1;
