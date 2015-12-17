@@ -5,9 +5,9 @@ window.onload = function() {
     var currentHeight;
     currentHeight = window.innerHeight;
 
-    /*var ua = navigator.userAgent.toLowerCase();
+    var ua = navigator.userAgent.toLowerCase();
+    var ios = ( ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1  ) ? true : false;
     var android = ua.indexOf('android') > -1 ? true : false;
-    var ios = ( ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1  ) ? true : false;*/
 
     var game = new Game(320, 480);
     game.preload('img/bg.png',
@@ -17,8 +17,17 @@ window.onload = function() {
                  'sound/Hit.mp3',
                  'sound/bgm.mp3');
     game.fps = 30;
-    /*game.scale = currentHeight/480;*/
-    game.scale = 2;
+    if(ios){
+        /*game.scale = 2;*/
+        game.scale = window.screen.availHeight/480;
+    }
+    else if (android){
+        game.scale = 1;
+        alert("halo " + currentHeight/480);
+    }
+    else {
+        game.scale = currentHeight/480;
+    }
     game.onload = function() {
         var scene = new SceneGame();
         game.pushScene(scene);
