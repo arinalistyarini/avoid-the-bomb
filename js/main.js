@@ -11,30 +11,71 @@ window.onload = function() {
 
     var game = new Game(320, 480);
     game.preload('img/bg.png',
-                'img/bgover.png',
+                 'img/bgover.png',
+                 'img/bgstart.png',
                  'img/player.png',
                  'img/bomb.png',
                  'sound/Hit.mp3',
                  'sound/bgm.mp3');
     game.fps = 30;
-    if(ios){
-        /*game.scale = 2;*/
-        game.scale = currentHeight/480;
-    }
-    else if (android){
-        game.scale = 1;
-        alert("halo " + currentHeight/480);
-    }
-    else {
-        game.scale = currentHeight/480;
-    }
+    game.scale = currentHeight/480;
     game.onload = function() {
-        var scene = new SceneGame();
+        var scene = new SceneStartGame();
         game.pushScene(scene);
     }
     window.scrollTo(0,0);
     game.start();   
 };
+
+var SceneStartGame = Class.create(Scene, {
+    initialize: function(score) {
+        var bgStart, startLabel, playLabel;
+        Scene.apply(this);
+        bgStart = new Sprite(320,480);
+        bgStart.image = Game.instance.assets['img/bgstart.png'];
+
+        // start label
+        startLabel = new Label("AVOID THE BOMB");
+        startLabel.x = 14;
+        startLabel.y = 120; 
+        startLabel.color = 'white';
+        startLabel.font = '35px monospace';
+        startLabel.textAlign = 'center';
+
+        //tap to play label
+        playLabel = new Label('Tap to Play');
+        playLabel.x = 14;
+        playLabel.y = 198;       
+        playLabel.color = 'white';
+        playLabel.font = '20px monospace';
+        playLabel.textAlign = 'center';
+
+        // Add BG & labels
+        this.addChild(bgStart);
+        this.addChild(startLabel);
+        this.addChild(playLabel);
+
+        // Background music
+        this.bgm = Game.instance.assets['sound/bgm.mp3']; // Add this line
+        // Start BGM
+        this.bgm.play();
+
+        // listener for tap fto restart
+        this.addEventListener(Event.TOUCH_START, this.touchToStartPlaying);
+    },
+
+    touchToStartPlaying: function(evt) {
+        var game = Game.instance;
+        game.replaceScene(new SceneGame());
+    },
+
+    update: function(evt) {
+        // Loop BGM
+        if (this.bgm.currentTime >= this.bgm.duration ){
+            this.bgm.play();
+        }
+    }
+});
 
 var SceneGame = Class.create(Scene, {
     // The main gameplay scene.     
@@ -213,7 +254,7 @@ var SceneGameOver = Class.create(Scene, {
 
         // Game Over label
         gameOverLabel = new Label("GAME OVER");
-        gameOverLabel.x = 18;
+        gameOverLabel.x = 8;
         gameOverLabel.y = 120; 
         gameOverLabel.color = 'white';
         gameOverLabel.font = '48px monospace';
@@ -221,7 +262,7 @@ var SceneGameOver = Class.create(Scene, {
 
         // Score label
         scoreLabel = new Label('<br>SCORE: ' + score);
-        scoreLabel.x = 14;
+        scoreLabel.x = 4;
         scoreLabel.y = 138;       
         scoreLabel.color = 'white';
         scoreLabel.font = '28px monospace';
@@ -229,7 +270,7 @@ var SceneGameOver = Class.create(Scene, {
 
         //tap label
         tapLabel = new Label('Tap to Restart');
-        tapLabel.x = 14;
+        tapLabel.x = 4;
         tapLabel.y = 228;       
         tapLabel.color = 'white';
         tapLabel.font = '22px monospace';
