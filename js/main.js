@@ -16,7 +16,8 @@ window.onload = function() {
                  'img/player.png',
                  'img/bomb.png',
                  'sound/Hit.mp3',
-                 'sound/bgm.mp3');
+                 'sound/bgm.mp3',
+                 'sound/gameover.wav');
     game.fps = 30;
     game.scale = currentHeight/480;
     game.onload = function() {
@@ -247,7 +248,7 @@ var Bomb = Class.create(Sprite, {
 // Game Over
 var SceneGameOver = Class.create(Scene, {
     initialize: function(score) {
-        var bgGameOver, gameOverLabel, scoreLabel, tapLabel;
+        var bgGameOver, gameOverLabel, scoreLabel, tapLabel, gameoverSound;
         Scene.apply(this);
         bgGameOver = new Sprite(320,480);
         bgGameOver.image = Game.instance.assets['img/bgover.png'];
@@ -281,6 +282,11 @@ var SceneGameOver = Class.create(Scene, {
         this.addChild(gameOverLabel);
         this.addChild(scoreLabel);
         this.addChild(tapLabel);
+
+        // gameover sound effect
+        this.gameoverSound = Game.instance.assets['sound/gameover.wav']; // Add this line
+        // playing sound effect
+        this.gameoverSound.play();
 
         // listener for tap fto restart
         this.addEventListener(Event.TOUCH_START, this.touchToRestart);
